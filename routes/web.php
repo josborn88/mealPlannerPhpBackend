@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Meal;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,22 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+
+
+Route::group(['middleware' => 'cors'], function () {
+    
+    Route::get('/test', function () {
+        return 'from Laravel Backend web route';
+    });  
+
+    Route::get('/mealBeforeDate/{date}', 'MealController@getRandomMealLastMadeBefore');
+    Route::get('/allMeals', 'MealController@getAllMealsFromDatabase');
+
+    Route::get('/makeMeal/{id}', 'MealController@cookMeal');
+
+    Route::post('/saveNewMeal', 'MealController@makeMealFromRequest');
+
+    Route::get('/mealPlan/{numberOfMeals}', 'MealPlanController@createMealPlan');
 });
